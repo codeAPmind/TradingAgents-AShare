@@ -330,6 +330,8 @@ class TradingAgentsGraph:
         self.data_collector.collect(ticker, trade_date)
 
         graph_args = self.propagator.get_graph_args()
+        if not graph_args["config"].get("configurable"):
+            graph_args["config"]["configurable"] = {"thread_id": f"{ticker}_{trade_date}"}
 
         state = self.propagator.create_initial_state(
             ticker, trade_date, user_intent=user_intent, horizon="short"
